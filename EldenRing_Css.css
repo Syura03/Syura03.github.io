@@ -1,0 +1,400 @@
+@font-face {
+    font-family: "Pretendard";
+    src: url("font/EBGaramond-VariableFont_wght.ttf") format("truetype");
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+a, a:link, a:hover, a:visited { 
+    text-decoration: none;
+    color: #000;
+}
+:root {
+    --gold: #cf9d7b;
+    --gold-light: #e8c96a;
+    --dark: #162127;
+    --dark2: #0c1519;
+    --dark3: #3a3534;
+    --dark4: #1f1f21;
+    --text-dim: #888;
+    --text-mid: #aaa;
+    --text-bright: #ddd;
+  }
+body { 
+    font-family: "EB Garamond", serif;
+    background-color: #162127;
+    
+   
+
+}
+
+.bg-layer {
+    position: fixed;  
+    top: 0;
+    left: 0;
+    width: 100vw;     
+    height: 100vh;    
+    z-index: -1;      
+    overflow: hidden; 
+    pointer-events: none; 
+}
+
+/* -----------------------------------------------------------------------  
+header 영역 - 로고, 메인메뉴
+----------------------------------------------------------------------- */
+
+header {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+    height: 120px;
+    padding: 0 30px 0 0px;
+    background-color: #0C1519;
+    z-index: 10000;
+    border-bottom: 1px solid #cf9d7b
+}
+
+.hero {
+    position: relative;
+    width: 100%;           
+    max-width: 1920px;     
+    height: 900px;        
+    margin: 120px auto 0;  
+    overflow: hidden;      
+    min-height: 500px;
+    
+  }
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('image/mainimage.jpg');
+    background-size: cover;
+    background-position: center 90%;
+    background-repeat: no-repeat;    
+    filter: brightness(0.85);
+  }
+.hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 0 60px;
+    padding-top: 80px;
+  }
+ .hero-jp-top {
+    position: absolute;
+    margin-bottom: 14px;
+    top: 510%;
+    left: 23%;
+    transform: translate(-50%, -50%); 
+    width: 20%;          
+    z-index: 4;
+  }
+  .hero-jp-top img {
+    height: auto;
+    width: 100%;
+    display: flex;
+    filter: brightness(1.1);
+  }
+
+  /* ELDEN RING 로고 이미지 */
+  .hero-logo {
+    position: absolute;
+    top: 670%;            
+  left: 22%;           
+  transform: translate(-50%, -50%); 
+  width: 40%;          
+  z-index: 5;
+  }
+  .hero-logo img {
+    height: auto;
+    width: 100%;
+    display: flex;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.45));
+  }
+
+  .hero-genre {
+    position: absolute;
+    margin-bottom: 32px;
+    top: 780%;
+    left: 23%;
+    transform: translate(-50%, -50%); 
+    width: 30%;  
+    z-index: 6;
+  }
+  .hero-genre img {
+    height: auto;
+    width: 100%;
+    display: flex;
+    opacity: 0.75;
+  }
+
+  .platform-row { 
+    display: flex; 
+    gap: 10px; 
+    flex-wrap: wrap;
+    position: absolute;   
+    top: 850%;         
+    left: 110px;
+    z-index: 20;          
+    
+  }
+  .platform-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: var(--text-bright);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .platform-btn:hover { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.4); }
+  .platform-btn .icon { font-size: 16px; line-height: 1; }
+  .platform-btn .sub { font-size: 8px; color: var(--text-dim); display: block; }
+
+#logo { 
+    height: 240px; 
+    display: flex;
+    
+}
+#logo img {
+    height: 250px; 
+    width: auto;   
+    display: block; 
+}
+#logo a:hover img {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.navmenu {
+    font-size: 20px;
+    height: 33px;
+    display: flex;
+    gap: 20px; 
+}
+
+.navmenu a {
+    color: #cf9d7b;
+}
+.navmenu a:link {
+    text-decoration: none;
+}
+.navmenu a:hover {
+    color: rgb(36, 109, 124);
+    font-weight: 700;
+}
+
+
+
+/* -----------------------------------------------------------------------
+본문 영역
+----------------------------------------------------------------------- */
+ section { padding: 40px 40px; }
+  .section-title {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 8px;
+    margin-bottom: 6px;
+  }
+  .section-divider {
+    width: 80px; height: 1px;   
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin-bottom: 32px;
+  }
+
+  /* ── NEWS ── */
+  .news-section { background: var(--dark2); }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 52px;
+    gap: 16px;
+    align-items: start;
+  }
+  .news-card {
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .news-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+
+  .news-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .news-body { padding: 12px; }
+  .news-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .news-tag span { color: var(--text-dim); font-weight: 400; }
+  .news-desc {
+    font-size: 11px;
+    color: var(--text-mid);
+    line-height: 1.5;
+    font-family: 'EB Garamond', serif;
+    font-weight: 300;
+  }
+  .news-more-btn {
+    width: 80px; height: 80px;
+    border: 3px solid rgba(114, 75, 57);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--gold);
+    cursor: pointer;
+    align-self: center;
+    transition: background 0.2s;
+  }
+  .news-more-btn:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+main {
+    position: relative;
+    width: 100%;
+    max-width: 1920px; 
+    margin: 0 auto; 
+    margin-bottom: 60px;
+    z-index: 5;
+    background-color: #162127
+}
+ /* ── FEATURED ── */
+  .featured-section { background: var(--dark3); }
+  .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .featured-card {
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+  
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .featured-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+
+  /* 피처드 카드 썸네일 이미지 */
+  .featured-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .featured-card-body { padding: 10px 12px; }
+  .featured-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .featured-tag span { color: var(--text-dim); font-weight: 400; }
+  .featured-desc {
+    font-size: 11px;
+    color: var(--text-mid);
+    line-height: 1.4;
+    font-family: 'EB Garamond', serif;
+  }
+
+  /* ── IMAGES ── */
+
+.images-section { background: var(--dark); padding: 70px 0 60px; text-align: center; }
+  .images-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 72px;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .images-divider {
+    width: 100px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 0 auto 36px;  
+  }
+  .images-carousel {
+    position: relative;
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  /* 캐러셀 슬라이드 이미지 */
+  .carousel-slide {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+  }
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+  /* 슬라이드 하단 그라디언트 오버레이 */
+  .carousel-slide::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    pointer-events: none;
+  }
+
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .dot.active { background: var(--gold); }
+  .dot:hover  { background: rgba(201,168,76,0.5); }
+
+
+
+
+/* -----------------------------------------------------------------------
+footer 영역 - 저작권 정보
+----------------------------------------------------------------------- */
+
+ footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .footer-disclaimer { font-size: 9px; color: var(--text-dim); line-height: 1.6; max-width: 520px; }
+  .footer-platforms {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0.9; font-size: 10px; letter-spacing: 1px;
+    color: var(--text-dim); white-space: nowrap;
+  }
