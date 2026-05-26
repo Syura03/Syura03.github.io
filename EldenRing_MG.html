@@ -1,0 +1,298 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <meta charset="utf-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- 모바일에서 콘텐츠 크기 최적화 -->
+    <link rel="stylesheet" type="text/css" href="MG_Css.css">
+    <title>EldenRing</title>
+    </head>
+
+<body>
+  
+    <header>
+        <div id="logo">
+            <a href="EldenRing_Main.html">
+                <img src="image/logo.png" alt="EldenRing로고">    
+            </a>
+        </div>
+
+        <div class="navmenu">
+            <p><a href="EldenRing_Story.html">STORY</a></p>
+            <p><a href="EldenRing_Concept">CONCEPT</a></p>
+            <p><a href="EldenRing_Information">INFORMATION</a></p>
+            <p><a href="EldenRing_Product">PRODUCT</a></p>
+            <p><a href="EldenRing_MG.html">MINI GAME</a></p>
+            <p><a href="EldenRing_Dlc">DLC</a></p>
+        </div>
+    </header>
+
+    <div class="touch-controls">
+      <button class="touch-btn touch-dodge"  data-action="dodge"    aria-label="회피">↓</button>
+      <button class="touch-btn touch-parry"  data-action="parry"    aria-label="패리">PARRY</button>
+      <button class="touch-btn touch-side"   data-action="sidestep" aria-label="사이드스텝">⇆</button>
+    </div>
+
+   <main>
+    
+  <section class="arena">
+
+    <!-- 보스 이름 & HP -->
+    <div class="boss-ui">
+      <div class="boss-name">Morgott, the Omen King</div>
+      <div class="boss-hp-bar"><div class="boss-hp-fill" id="bossHp"></div></div>
+    </div>
+
+    <!-- 전투 무대 -->
+    <div class="stage">
+      <div class="boss" id="boss">
+        <img src="image/MG/boss_morgott.webp" alt="boss" class="boss-img">
+        <!-- 공격 글로우 이펙트 -->
+        <div class="attack-glow" id="attackGlow"></div>
+      </div>
+
+      <!-- 판정 텍스트 -->
+      <div class="judgement" id="judgement"></div>
+
+      <!-- 화면 섬광(퍼펙트 패리용) -->
+      <div class="flash" id="flash"></div>
+
+      <!-- 시작/종료 오버레이 -->
+      <div class="overlay" id="overlay">
+        <div class="overlay-title" id="overlayTitle">PARRY OF THE TARNISHED</div>
+        <div class="overlay-sub" id="overlaySub">
+          황금 공격은 <b>Space</b>로 패리<br>
+          적색 잡기는 <b>S</b>로 회피<br>
+          청색 마법은 <b>A, D</b>로 사이드스텝 회피
+        </div>
+        <button class="overlay-btn" id="startBtn">ENTER THE FOG</button>
+      </div>
+    </div>
+
+    <!-- 플레이어 UI -->
+    <div class="player-ui">
+      <div class="hp-label">TARNISHED</div>
+      <div class="player-hp-bar"><div class="player-hp-fill" id="playerHp"></div></div>
+      <div class="score">RUNES: <span id="score">0</span></div>
+    </div>
+
+  </section>
+</main>
+
+    <footer>
+  <div class="footer-disclaimer">
+    “PlayStation Family Mark”, “PlayStation”, “PS5 logo”, “PS5”, “PS4 logo”, “PS4”,<br>
+    “PlayStation Shapes Logo” and “Play Has No Limits” are registered trademarks or trademarks of Sony Interactive Entertainment Inc.<br>
+    Microsoft, the Xbox Sphere mark, the Series X logo, Series S logo, Series X|S logo, Xbox One,<br>
+    Xbox Series X, Xbox Series S, and Xbox Series X|S are trademarks of the Microsoft group of companies.
+  </div>
+   
+
+  <div class="footer-platforms">
+    <img src="image/Text/logo_ps.png" alt="PS5">
+    <img src="image/Text/logo_xbox01.png" alt="XBOX">
+    <img src="image/Text/logo_xbox02.png" alt="XBOX2">
+  </div>
+
+
+
+</footer>
+
+
+</body>           
+
+<script>
+const boss        = document.getElementById('boss');
+const bossHpEl    = document.getElementById('bossHp');
+const playerHpEl  = document.getElementById('playerHp');
+const judgement   = document.getElementById('judgement');
+const flash       = document.getElementById('flash');
+const overlay     = document.getElementById('overlay');
+const overlayTitle= document.getElementById('overlayTitle');
+const overlaySub  = document.getElementById('overlaySub');
+const startBtn    = document.getElementById('startBtn');
+const scoreEl     = document.getElementById('score');
+
+const STATE = {
+  playing: false,
+  playerHp: 100,
+  bossHp: 100,
+  score: 0,
+  currentAttack: null,
+  resolved: false,
+  phase: 'idle',   // 'idle' | 'telegraph' | 'open' | 'closed'
+};
+
+// 공격 패턴 풀
+const ATTACKS = [
+  { type: 'yellow', telegraph: 1100, warn: 400, strike: 180 },
+  { type: 'yellow', telegraph: 800,  warn: 350, strike: 150 },
+  { type: 'yellow', telegraph: 1400, warn: 300, strike: 150 }, // 딜레이 공격
+  { type: 'red',    telegraph: 1000, warn: 450, strike: 200 },
+  { type: 'blue',   telegraph: 1200, warn: 400, strike: 200 },
+];
+
+function showJudgement(text, cls) {
+  judgement.className = 'judgement show ' + cls;
+  judgement.textContent = text;
+  setTimeout(() => judgement.classList.remove('show'), 600);
+}
+
+function updateBars() {
+  bossHpEl.style.width   = STATE.bossHp + '%';
+  playerHpEl.style.width = STATE.playerHp + '%';
+  scoreEl.textContent    = STATE.score;
+}
+
+function fireFlash() {
+  flash.classList.add('fire');
+  setTimeout(() => flash.classList.remove('fire'), 200);
+}
+
+function endGame(victory) {
+  STATE.playing = false;
+  STATE.currentAttack = null;
+  boss.className = 'boss';
+  overlay.classList.remove('hide');
+  if (victory) {
+    overlayTitle.textContent = 'ENEMY FELLED';
+    overlayTitle.className = 'overlay-title victory';
+    overlaySub.innerHTML = `획득한 룬: <b>${STATE.score}</b><br>...기억하리라, 빛바랜 자여.`;
+  } else {
+    overlayTitle.textContent = 'YOU DIED';
+    overlayTitle.className = 'overlay-title died';
+    overlaySub.innerHTML = `어리석은 야심은 잊어라.<br>획득한 룬: <b>${STATE.score}</b>`;
+  }
+  startBtn.textContent = 'TRY AGAIN';
+}
+
+function nextAttack() {
+  if (!STATE.playing) return;
+
+  const speedMul = STATE.bossHp < 30 ? 0.65 : STATE.bossHp < 70 ? 0.85 : 1;
+  const atk = ATTACKS[Math.floor(Math.random() * ATTACKS.length)];
+
+  STATE.currentAttack = atk.type;
+  STATE.resolved = false;
+  STATE.phase = 'telegraph';
+
+  const tel    = atk.telegraph * speedMul;
+  const warn   = atk.warn      * speedMul;
+
+  // 1단계: 예비동작 (입력 시 TOO EARLY)
+  boss.className = 'boss telegraph';
+
+  // 2단계: 판정 윈도우 OPEN
+  setTimeout(() => {
+    if (!STATE.playing) return;
+    boss.className = 'boss warn-' + atk.type;
+    STATE.phase = 'open';
+  }, tel);
+
+  // 3단계: 판정 윈도우 CLOSE + 타격
+  setTimeout(() => {
+    if (!STATE.playing) return;
+    STATE.phase = 'closed';
+    boss.className = 'boss strike';
+
+    if (!STATE.resolved) {
+      STATE.playerHp -= 20;
+      showJudgement('HIT', 'miss');
+      updateBars();
+      if (STATE.playerHp <= 0) { endGame(false); return; }
+    }
+
+    // 늦은 입력을 위한 짧은 유예 시간(0.5s) 후 idle 복귀
+    setTimeout(() => {
+      STATE.phase = 'idle';
+      STATE.currentAttack = null;
+      boss.className = 'boss';
+      setTimeout(nextAttack, 400 + Math.random() * 500);
+    }, 500);
+  }, tel + warn);
+}
+
+function handleInput(action) {
+  if (!STATE.playing || STATE.resolved) return;
+  if (STATE.phase === 'idle') return;   // 공격 사이 입력은 무시
+
+  // 너무 빠름: 예비동작 중 입력
+  if (STATE.phase === 'telegraph') {
+    STATE.resolved = true;
+    STATE.playerHp -= 10;
+    showJudgement('TOO EARLY', 'miss');
+    updateBars();
+    if (STATE.playerHp <= 0) endGame(false);
+    return;
+  }
+
+  // 너무 늦음: 판정 윈도우가 이미 닫힌 뒤 입력
+  if (STATE.phase === 'closed') {
+    STATE.resolved = true;
+    showJudgement('TOO LATE', 'miss');
+    // (HP는 이미 HIT으로 깎였으므로 추가 페널티 없음)
+    return;
+  }
+
+  // phase === 'open' : 정상 판정
+  const atk = STATE.currentAttack;
+  let success = false, perfect = false;
+
+  if (action === 'parry' && atk === 'yellow') { success = true; perfect = true; }
+  else if (action === 'dodge'    && atk === 'red')  { success = true; }
+  else if (action === 'sidestep' && atk === 'blue') { success = true; }
+
+  STATE.resolved = true;
+
+  if (success) {
+    const dmg = perfect ? 18 : 12;
+    const runes = perfect ? 150 : 80;
+    STATE.bossHp = Math.max(0, STATE.bossHp - dmg);
+    STATE.score += runes;
+    boss.classList.add('parried');
+    if (perfect) fireFlash();
+    showJudgement(perfect ? 'PERFECT PARRY' : 'DODGED', perfect ? 'perfect' : 'good');
+    updateBars();
+    if (STATE.bossHp <= 0) { endGame(true); return; }
+  } else {
+    STATE.playerHp -= 15;
+    showJudgement('WRONG!', 'miss');
+    updateBars();
+    if (STATE.playerHp <= 0) endGame(false);
+  }
+} 
+
+document.addEventListener('keydown', (e) => {
+  if (!STATE.playing) return;
+  if (e.code === 'Space')      { e.preventDefault(); handleInput('parry'); }
+  else if (e.code === 'KeyS')  handleInput('dodge');
+  else if (e.code === 'KeyA' || e.code === 'KeyD') handleInput('sidestep');
+});
+
+startBtn.addEventListener('click', () => {
+  STATE.playing = true;
+  STATE.playerHp = 100;
+  STATE.bossHp = 100;
+  STATE.score = 0;
+  STATE.currentAttack = null;
+  STATE.resolved = false;
+  STATE.phase = 'idle';  
+  updateBars();
+  overlay.classList.add('hide');
+  setTimeout(nextAttack, 1200);
+});
+
+document.querySelectorAll('.touch-btn').forEach(btn => {
+  btn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (!STATE.playing) return;
+    handleInput(btn.dataset.action);
+  }, { passive: false });
+
+  // 데스크톱에서 dev 테스트용 (선택)
+  btn.addEventListener('click', () => {
+    if (!STATE.playing) return;
+    handleInput(btn.dataset.action);
+  });
+});
+
+</script>
