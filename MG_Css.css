@@ -401,92 +401,240 @@ footer 영역 - 저작권 정보
 }
 
 
+/* =======================================================================
+   반응형 미디어 쿼리 (모바일 터치 버튼 완벽 보존 및 최적화 버전)
+   ======================================================================= */
+
+/* 기본 상태(데스크탑)에서는 모바일 터치 버튼을 숨깁니다 */
+.nav-toggle, .touch-controls {
+  display: none;
+}
+
+/* =============== 1. 태블릿 기준 (1024px 이하로 축소 시) =============== */
 @media (max-width: 1024px) {
-  /* 헤더 축소 */
-  header { height: 80px; padding: 0 15px; }
-  #logo, #logo img { height: 130px; }
+  
+  header { 
+    height: 80px; 
+    padding: 0 20px 0 0; 
+  }
+  #logo, #logo img { 
+    height: 130px; 
+  }
+  main {
+    margin-top: 80px;
+  }
+
+  /* 햄버거 버튼 활성화 */
+  .nav-toggle { 
+    display: block; 
+    position: relative;
+    width: 36px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+    padding: 0;
+  }
+  .nav-toggle span {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gold);
+    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
+  }
+  .nav-toggle span:nth-child(1) { top: 4px; }
+  .nav-toggle span:nth-child(2) { top: 14px; }
+  .nav-toggle span:nth-child(3) { top: 24px; }
+
+  .nav-toggle.open span:nth-child(1) { top: 14px; transform: rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { top: 14px; transform: rotate(-45deg); }
+
+  /* 모바일 메뉴 드로어 */
   .navmenu {
-    font-size: 13px;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    max-width: 60%;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    width: 280px;
+    height: calc(100vh - 80px);
+    background: rgba(12, 21, 25, 0.97);
+    border-left: 1px solid var(--gold);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 30px 0;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 10000;
+  }
+  .navmenu.open { 
+    transform: translateX(0); 
+  }
+  .navmenu p {
+    width: 100%;
+    padding: 18px 30px;
+    border-bottom: 1px solid rgba(207,157,123,0.15);
+  }
+  .navmenu a {
+    font-size: 16px;
+    letter-spacing: 3px;
+    display: block;
+    width: 100%;
+    color: var(--gold);
   }
 
-  main { margin-top: 80px; }
-
-  /* 아레나 */
+  /* 아레나 영역 공백 제거 및 컴팩트화 */
   .arena {
-    padding: 30px 12px 160px;   /* 하단에 터치버튼 자리 확보 */
     min-height: calc(100vh - 80px);
+    padding: 30px 20px 20px;
   }
 
-  .boss-ui { margin-bottom: 15px; }
-  .boss-name { font-size: 20px; letter-spacing: 3px; }
-  .boss-hp-bar { height: 5px; }
+  .boss-ui {
+    margin-bottom: 20px;
+  }
+  .boss-name {
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
 
+  /* 중앙 전투 화면 비율 맞춤 */
   .stage {
-    height: 55vh;
-    min-height: 360px;
+    max-width: 100%;
+    height: 320px;
   }
-  .boss { height: 90%; }
-
-  /* 판정 텍스트 */
+  
   .judgement {
     font-size: 32px;
     letter-spacing: 3px;
-    top: 30%;
-  }
-  .judgement.miss { font-size: 28px; }
-
-  /* 오버레이 */
-  .overlay { padding: 20px; }
-  .overlay-title {
-    font-size: 28px;
-    letter-spacing: 5px;
-    margin-bottom: 20px;
-  }
-  .overlay-sub { font-size: 14px; line-height: 1.8; margin-bottom: 25px; }
-  .overlay-btn {
-    font-size: 16px;
-    letter-spacing: 2px;
-    padding: 12px 32px;
   }
 
-  /* 플레이어 UI */
+  /* ★ [간격 조정] 태블릿 상태에서 버튼들 사이를 기분 좋게 띄움 */
+  .touch-controls {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 28px; /* 기존 20px -> 28px로 살짝 넓힘 */
+    margin: 25px auto 15px;
+    width: 100%;
+  }
+  .touch-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(12, 21, 25, 0.8);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 하단 플레이어 UI 컴팩트화 */
   .player-ui {
+    display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: stretch;     /* ← 자식이 가로로 꽉 차게 */
+    gap: 10px;
     margin-top: 15px;
+    max-width: 100%;
+    padding: 0 10px;
   }
-  .hp-label { min-width: 0; font-size: 12px; }
-  .score { min-width: 0; font-size: 14px; }
-
-  /* 푸터 */
+  .hp-label {
+    min-width: 0;
+    text-align: left;
+    font-size: 13px;
+  }
+  .player-hp-bar {
+    flex: none;               /* ← column에서 flex:1 무력화 */
+    width: 100%;              /* ← 명시적 가로 100% */
+    height: 12px;
+  }
+  .score {
+    min-width: 0;
+    text-align: right;
+    font-size: 14px;
+  }
   footer {
     flex-direction: column;
-    padding: 16px 20px;
+    padding: 20px;
     text-align: center;
+    gap: 12px;
   }
-  .footer-disclaimer { font-size: 8px; }
-
-  /* 터치 컨트롤 활성화 */
-  .touch-controls { display: flex; }
+  .footer-disclaimer { font-size: 8px; max-width: 100%; }
 }
 
-/* =============== 모바일 가로모드 =============== */
-@media (max-width: 900px) and (orientation: landscape) {
-  .arena { padding: 20px 12px 110px; }
-  .stage { height: 70vh; }
-  .touch-btn { width: 60px; height: 60px; font-size: 12px; }
-  .touch-parry { width: 80px; height: 80px; font-size: 14px; }
-  .touch-controls { bottom: 12px; }
-}
+/* =============== 2. 중형 모바일 기준 (768px 이하로 축소 시) =============== */
+@media (max-width: 768px) {
+  header { height: 70px; }
+  main { margin-top: 70px; }
+  .arena {min-height: calc(100vh - 70px); padding-top: 20px; }
+  .navmenu { top: 70px; height: calc(100vh - 70px); }
 
-/* =============== 작은 폰 (480px 이하) =============== */
-@media (max-width: 480px) {
+  #logo, #logo img { height: 110px; }
+
   .boss-name { font-size: 16px; letter-spacing: 2px; }
+ 	.stage{ height: 260px; }
+  
   .judgement { font-size: 26px; }
-  .touch-btn { width: 65px; height: 65px; font-size: 11px; }
-  .touch-parry { width: 90px; height: 90px; font-size: 15px; }
+  .judgement.miss { font-size: 22px; }
+
+  /* ★ [간격 조정] 일반 스마트폰 화면에서의 버튼 간격 확대 */
+  .touch-controls {
+    gap: 24px; /* 기존 15px -> 24px로 확대하여 플레이 편의성 제공 */
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .touch-btn {
+    width: 58px; /* 버튼 크기를 아주 살짝만 키워 가독성 확보 */
+    height: 58px;
+    font-size: 18px;
+  }
+  .footer-platforms img { height: 16px; }
+}
+
+/* =============== 3. 소형 모바일 기준 (480px 이하로 축소 시) =============== */
+@media (max-width: 480px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  header { height: 60px; }
+  main { margin-top: 60px; }
+  .arena {min-height: calc(100vh - 60px); padding: 15px 12px 12px; }
+  .navmenu { top: 60px; height: calc(100vh - 60px); width: 75%; }
+
+  #logo, #logo img { height: 90px; }
+
+  .boss-name { font-size: 14px; letter-spacing: 1px; }
+ 	.stage{ height: 200px; }
+
+  .judgement { font-size: 22px; letter-spacing: 2px; }
+  .judgement.miss { font-size: 18px; }
+
+  /* ★ [간격 조정] 화면이 가장 작은 폰에서도 양옆에 안 붙는 선에서 넓힘 */
+  .touch-controls {
+    gap: 22px; /* 기존 12px -> 18px로 자잘한 간격 답답함 해소 */
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  .touch-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .overlay-title { font-size: 22px; letter-spacing: 2px; }
+  .overlay-sub { font-size: 11px; line-height: 1.6; }
+
+  .footer-disclaimer { font-size: 7px; line-height: 1.4; }
+  .footer-platforms img { height: 14px; }
 }

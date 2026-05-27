@@ -16,13 +16,19 @@
             </a>
         </div>
 
-        <div class="navmenu">
+        <button class="nav-toggle" id="navToggle" aria-label="메뉴">
+        <span></span>
+        <span></span>
+        <span></span>
+        </button>
+
+        <div class="navmenu" id="navmenu">
             <p><a href="EldenRing_Story.html">STORY</a></p>
-            <p><a href="EldenRing_Concept">CONCEPT</a></p>
-            <p><a href="EldenRing_Information">INFORMATION</a></p>
-            <p><a href="EldenRing_Product">PRODUCT</a></p>
+            <p><a href="EldenRing_Information.html">INFORMATION</a></p>
+            <p><a href="EldenRing_News.html">NEWS</a></p>
+            <p><a href="EldenRing_Product.html">PRODUCT</a></p>
             <p><a href="EldenRing_MG.html">MINI GAME</a></p>
-            <p><a href="EldenRing_Dlc">DLC</a></p>
+         
         </div>
     </header>
 
@@ -58,13 +64,13 @@
 
       <!-- 시작/종료 오버레이 -->
       <div class="overlay" id="overlay">
-        <div class="overlay-title" id="overlayTitle">PARRY OF THE TARNISHED</div>
+        <div class="overlay-title" id="overlayTitle">PARRYING MINIGAME</div>
         <div class="overlay-sub" id="overlaySub">
           황금 공격은 <b>Space</b>로 패리<br>
           적색 잡기는 <b>S</b>로 회피<br>
           청색 마법은 <b>A, D</b>로 사이드스텝 회피
         </div>
-        <button class="overlay-btn" id="startBtn">ENTER THE FOG</button>
+        <button class="overlay-btn" id="startBtn">START</button>
       </div>
     </div>
 
@@ -99,6 +105,23 @@
 
 
 </body>           
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navmenu   = document.getElementById('navmenu');
+
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navmenu.classList.toggle('open');
+  });
+
+  // 메뉴 항목 클릭 시 자동 닫힘
+  navmenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navmenu.classList.remove('open');
+    });
+  });
+</script>
 
 <script>
 const boss        = document.getElementById('boss');
@@ -124,11 +147,11 @@ const STATE = {
 
 // 공격 패턴 풀
 const ATTACKS = [
-  { type: 'yellow', telegraph: 1100, warn: 400, strike: 180 },
-  { type: 'yellow', telegraph: 800,  warn: 350, strike: 150 },
+  { type: 'yellow', telegraph: 1400, warn: 500, strike: 200 },
+  { type: 'yellow', telegraph: 1000,  warn: 350, strike: 170 },
   { type: 'yellow', telegraph: 1400, warn: 300, strike: 150 }, // 딜레이 공격
-  { type: 'red',    telegraph: 1000, warn: 450, strike: 200 },
-  { type: 'blue',   telegraph: 1200, warn: 400, strike: 200 },
+  { type: 'red',    telegraph: 1100, warn: 450, strike: 200 },
+  { type: 'blue',   telegraph: 1400, warn: 500, strike: 220 },
 ];
 
 function showJudgement(text, cls) {

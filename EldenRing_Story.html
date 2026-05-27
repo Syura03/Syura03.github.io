@@ -17,13 +17,18 @@
             </a>
         </div>
 
-        <div class="navmenu">
+         <button class="nav-toggle" id="navToggle" aria-label="메뉴">
+        <span></span>
+        <span></span>
+        <span></span>
+        </button>
+
+        <div class="navmenu" id="navmenu">
             <p><a href="EldenRing_Story.html">STORY</a></p>
-            <p><a href="EldenRing_Concept.html">CONCEPT</a></p>
             <p><a href="EldenRing_Information.html">INFORMATION</a></p>
-            <p><a href="EldenRing_Product.html">PRODUCT</a></p> 
+            <p><a href="EldenRing_News.html">NEWS</a></p> 
+            <p><a href="EldenRing_Product.html">PRODUCT</a></p>
             <p><a href="EldenRing_MG.html">MINI GAME</a></p>
-            <p><a href="EldenRing_DLC.html">DLC</a></p>
         </div>
     </header>
 
@@ -116,6 +121,23 @@
 
 
 </footer>
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navmenu   = document.getElementById('navmenu');
+
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navmenu.classList.toggle('open');
+  });
+
+  // 메뉴 항목 클릭 시 자동 닫힘
+  navmenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navmenu.classList.remove('open');
+    });
+  });
+</script>
 
 <script>
   const track = document.querySelector('.carousel-track');
