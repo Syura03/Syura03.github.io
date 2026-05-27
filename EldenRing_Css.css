@@ -430,45 +430,19 @@ footer 영역 - 저작권 정보
     opacity: 0.9; font-size: 10px; letter-spacing: 1px;
     color: var(--text-dim); white-space: nowrap;
   }
+/* =======================================================================
+   반응형 미디어 쿼리 (태블릿 & 모바일 비율 최적화)
+   ======================================================================= */
 
-  @media (max-width: 1024px) {
-  .nav-toggle {
-  display: none;
-  position: relative;
-  width: 36px;
-  height: 30px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 10001;
-  padding: 0;
-}
-.nav-toggle span {
-  display: block;
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--gold);
-  transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
-}
-.nav-toggle span:nth-child(1) { top: 4px; }
-.nav-toggle span:nth-child(2) { top: 14px; }
-.nav-toggle span:nth-child(3) { top: 24px; }
-
-/* 열린 상태: X 모양 */
-.nav-toggle.open span:nth-child(1) { top: 14px; transform: rotate(45deg); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { top: 14px; transform: rotate(-45deg); }
-  }
+/* 데스크탑 화면에서는 햄버거 버튼을 숨깁니다 */
 .nav-toggle {
   display: none;
 }
 
-/* =============== 태블릿 (1024px 이하) =============== */
+/* =============== 1. 태블릿 & 모바일 공통 기본 디자인 (1024px 이하) =============== */
 @media (max-width: 1024px) {
   
-  /* --- 헤더 + 햄버거 버튼 활성화 --- */
+  /* --- 헤더 및 로고 비율 조정 --- */
   header { 
     height: 80px; 
     padding: 0 20px; 
@@ -477,9 +451,9 @@ footer 영역 - 저작권 정보
     height: 130px; 
   }
 
-  /* 햄버거 버튼 스타일 정의 */
+  /* 햄버거 버튼 활성화 */
   .nav-toggle {
-    display: block; /* 모바일/태블릿에서 보이도록 설정 */
+    display: block;
     position: relative;
     width: 30px;
     height: 24px;
@@ -502,12 +476,12 @@ footer 영역 - 저작권 정보
   .nav-toggle span:nth-child(2) { top: 11px; }
   .nav-toggle span:nth-child(3) { top: 20px; }
 
-  /* 열린 상태: X 모양 애니메이션 */
+  /* 열린 상태 (X 모양 애니메이션) */
   .nav-toggle.open span:nth-child(1) { top: 11px; transform: rotate(45deg); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
 
-  /* 메뉴를 우측 슬라이드 드로어로 변환 */
+  /* 우측 슬라이드 메뉴 드로어 스타일 (768, 480에도 동일 유지) */
   .navmenu {
     position: fixed;
     top: 80px;
@@ -517,13 +491,11 @@ footer 영역 - 저작권 정보
     background: rgba(12, 21, 25, 0.97);
     border-left: 1px solid var(--gold);
     
-    /* 기존 데스크탑 정렬 무력화 및 세로 배치 */
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
     gap: 0;
     padding: 30px 0;
-    height: auto;
     
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
@@ -544,7 +516,7 @@ footer 영역 - 저작권 정보
     width: 100%;
   }
 
-  /* --- Hero 반응형 고정 해제 --- */
+  /* --- Hero 영역: 세로 정렬 및 유연한 높이 설정 --- */
   .hero {
     height: auto;
     min-height: auto;
@@ -565,6 +537,7 @@ footer 영역 - 저작권 정보
     gap: 18px;
   }
 
+  /* 절대 좌표 해제 후 중앙 정렬 유지 */
   .hero-jp-top,
   .hero-logo,
   .hero-genre,
@@ -574,10 +547,13 @@ footer 영역 - 저작권 정보
     left: auto; top: auto;
     margin: 0;
   }
+  
+  /* 1024px 기준 요소 너비 비율 */
   .hero-jp-top { width: 30%; max-width: 220px; }
   .hero-logo   { width: 65%; max-width: 480px; }
   .hero-genre  { width: 45%; max-width: 360px; margin-bottom: 8px; }
 
+  /* 플랫폼 버튼 정렬 */
   .platform-row {
     display: flex;
     flex-wrap: wrap;
@@ -588,42 +564,54 @@ footer 영역 - 저작권 정보
 
   main { margin-top: 0; }
 
+  /* 푸터 요소 세로 배치 */
   footer {
     flex-direction: column;
-    padding: 16px 20px;
+    padding: 20px;
     text-align: center;
+    gap: 16px;
   }
-  .footer-disclaimer { font-size: 8px; }
+  .footer-disclaimer { font-size: 9px; max-width: 100%; }
+  .footer-platforms { justify-content: center; }
 }
 
-/* =============== 모바일 (768px 이하) =============== */
+/* =============== 2. 중형 모바일 / 일반 스마트폰 (768px 이하) =============== */
 @media (max-width: 768px) {
-  #logo, #logo img { height: 130px; }
+  header { height: 70px; } /* 헤더 높이 살짝 축소 */
+  .navmenu { top: 70px; height: calc(100vh - 70px); width: 240px; } /* 메뉴 폭 비율 맞춤 조절 */
+  
+  #logo, #logo img { height: 110px; }
 
   .hero-bg { background-position: center 35%; filter: brightness(0.75); }
   .hero-content { padding: 40px 20px; gap: 14px; }
 
-  .hero-jp-top { width: 38%; max-width: 170px; }
-  .hero-logo   { width: 80%; max-width: 340px; }
-  .hero-genre  { width: 60%; max-width: 260px; }
+  /* 768px 해상도에 맞춰 이미지 덩어리 비율을 자연스럽게 확대 */
+  .hero-jp-top { width: 38%; }
+  .hero-logo   { width: 75%; }
+  .hero-genre  { width: 55%; }
 
+  /* 플랫폼 로고 크기 축소 */
   .platform-btn img { height: 24px; }
-
-  footer {
-    flex-direction: column;
-    padding: 8px 12px;
-    text-align: center;
-  }
-  .footer-disclaimer { font-size: 4px; }
+  
+  .footer-disclaimer { font-size: 8px; }
 }
 
-/* =============== 작은 폰 (480px 이하) =============== */
+/* =============== 3. 소형 모바일 (480px 이하) =============== */
 @media (max-width: 480px) {
-  .hero-content { padding: 30px 16px; gap: 12px; }
-  .hero-jp-top { width: 45%; }
-  .hero-logo   { width: 88%; }
-  .hero-genre  { width: 70%; }
-  .platform-btn img { height: 20px; }
+  header { height: 65px; }
+  .navmenu { top: 65px; height: calc(100vh - 65px); width: 70%; } /* 화면 너비의 70% 차지 */
+  
+  #logo, #logo img { height: 100px; }
+  
+  .hero-content { padding: 35px 16px; gap: 12px; }
 
-  .navmenu { width: 75%; }
+  /* 좁은 화면을 꽉 채우도록 이미지 비율 확대 */
+  .hero-jp-top { width: 45%; }
+  .hero-logo   { width: 85%; }
+  .hero-genre  { width: 70%; }
+
+  /* 가장 작은 화면용 버튼 높이 지정 */
+  .platform-btn img { height: 20px; }
+  
+  .footer-disclaimer { font-size: 7px; line-height: 1.4; }
 }
