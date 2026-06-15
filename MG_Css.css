@@ -488,7 +488,7 @@ footer 영역 - 저작권 정보
 
   /* 아레나 영역 공백 제거 및 컴팩트화 */
   .arena {
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 70px);
     padding: 30px 20px 20px;
   }
 
@@ -510,6 +510,17 @@ footer 영역 - 저작권 정보
     font-size: 32px;
     letter-spacing: 3px;
   }
+
+  .overlay-title {
+    font-size: 32px;
+    letter-spacing: 6px;
+  }
+
+  .overlay-btn {
+    font-size: 16px;
+    padding: 12px 36px;
+  }
+  
 
   /* ★ [간격 조정] 태블릿 상태에서 버튼들 사이를 기분 좋게 띄움 */
   .touch-controls {
@@ -597,6 +608,14 @@ footer 영역 - 저작권 정보
     height: 58px;
     font-size: 18px;
   }
+  .overlay-title { font-size: 22px; letter-spacing: 4px; margin-top: 20px; }
+
+  .overlay-sub { font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
+
+  .overlay-btn {
+    font-size: 14px;
+    padding: 14px 36px;
+  }
   .footer-platforms img { height: 16px; }
 }
 
@@ -632,8 +651,12 @@ footer 영역 - 저작권 정보
     font-size: 16px;
   }
 
-  .overlay-title { font-size: 22px; letter-spacing: 2px; }
-  .overlay-sub { font-size: 11px; line-height: 1.6; }
+  .overlay-title { font-size: 16px; letter-spacing: 2px; }
+  .overlay-sub { font-size: 11px; line-height: 1.4; }
+  .overlay-btn {
+    font-size: 12px;
+    padding: 8px 20px;
+  }
 
   .footer-disclaimer { font-size: 7px; line-height: 1.4; }
   .footer-platforms img { height: 14px; }

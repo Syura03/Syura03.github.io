@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="EldenRing_News_Detail.css">
+    <title>NEWS DETAIL | ELDEN RING</title>
+</head>
+<body>
+
+    <header>
+        <div id="logo">
+            <a href="EldenRing_Main.html">
+                <img src="image/logo.png" alt="EldenRing로고">
+            </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="메뉴">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="navmenu" id="navmenu">
+            <p><a href="EldenRing_Story.html">STORY</a></p>
+            <p><a href="EldenRing_Information.html">INFORMATION</a></p>
+            <p><a href="EldenRing_News.html">NEWS</a></p>
+            <p><a href="EldenRing_Product.html">PRODUCT</a></p>
+            <p><a href="EldenRing_MG.html">MINI GAME</a></p>
+        </div>
+    </header>
+
+    <main>
+        <!-- 헤로(상단 이미지 + 제목 오버레이) -->
+        <section class="detail-hero">
+            <div class="hero-bg" style="background-image:url('image/news1.jpg');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-section-label">N E W S</div>
+                <div class="hero-date">2025.10.23</div>
+                <h1 class="hero-title">Nintendo Switch 2『ELDEN RING Tarnished Edition』<br>발매일 변경의 안내</h1>
+            </div>
+        </section>
+
+        <!-- 본문 -->
+        <section class="detail-body">
+            <div class="detail-content">
+                <p>Nintendo Switch 2『ELDEN RING Tarnished Edition』의 발매일을 다음과 같이 변경하게 되었음을 알려드립니다.</p>
+
+                <p class="strong-line">【변경 전】 발매일: 2025년 예정<br>
+                【변경 후】 발매일: 2026년 예정</p>
+
+                <p>발매를 향해 예의 개발을 진행해 왔습니다만, 게임의 퍼포먼스 조정에 보다 많은 시간이 필요하다고 판단하여 발매일 변경을 결정하게 되었습니다. 자세한 발매일에 관해서는 결정되는 대로 다시 알려드리겠습니다.</p>
+
+                <p>본작의 발매를 기다려주시는 유저 여러분께는 깊은 폐를 끼치는 점, 진심으로 사과의 말씀을 드립니다. 보다 좋은 형태로 전해드릴 수 있도록 조정을 진행해 가오니, 부디 이해해 주시기를 부탁드립니다.</p>
+
+                <p>아무쪼록 잘 부탁드립니다.</p>
+
+                <p class="note">※『ELDEN RING Tarnished Edition』에서 추가되는 요소는, 다른 플랫폼에서도 다운로드 판매를 예정하고 있습니다. 이쪽에 대해서도 배포일은 2026년으로 변경됩니다.</p>
+            </div>
+
+            <!-- 이전/다음 -->
+            <div class="detail-nav">
+                <a href="#" class="nav-prev">
+                    <span class="nav-date">2025.09.15</span>
+                    <span class="nav-title">「ELDEN RING」풀 오케스트라 콘서트 개최의 알림</span>
+                    <span class="nav-arrow">&#10095;</span>
+                </a>
+                <a href="#" class="nav-next">
+                    <span class="nav-date">2025.08.21</span>
+                    <span class="nav-title">업데이트 파일 전송 알림</span>
+                    <span class="nav-arrow">&#10094;</span>
+                </a>
+            </div>
+
+            <div class="back-to-list">
+                <a href="EldenRing_News.html">← BACK TO LIST</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-disclaimer">
+            "PlayStation Family Mark", "PlayStation", "PS5 logo", "PS5", "PS4 logo", "PS4",<br>
+            "PlayStation Shapes Logo" and "Play Has No Limits" are registered trademarks or trademarks of Sony Interactive Entertainment Inc.<br>
+            Microsoft, the Xbox Sphere mark, the Series X logo, Series S logo, Series X|S logo, Xbox One,<br>
+            Xbox Series X, Xbox Series S, and Xbox Series X|S are trademarks of the Microsoft group of companies.
+        </div>
+        <div class="footer-platforms">
+            <img src="image/Text/logo_ps.png" alt="PS5">
+            <img src="image/Text/logo_xbox01.png" alt="XBOX">
+            <img src="image/Text/logo_xbox02.png" alt="XBOX2">
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navmenu = document.getElementById('navmenu');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            navmenu.classList.toggle('open');
+        });
+        navmenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navmenu.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>

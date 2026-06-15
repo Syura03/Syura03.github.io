@@ -11,7 +11,7 @@
 }
 a, a:link, a:hover, a:visited { 
     text-decoration: none;
-    color: #000;
+    color: inherit;
 }
 :root {
     --gold: #cf9d7b;
@@ -228,6 +228,9 @@ header {
     overflow: hidden;
     cursor: pointer;
     transition: border-color 0.2s, transform 0.2s;
+    display: block;        /* a 태그일 때 블록 레이아웃 유지 */
+    color: inherit;        /* a 태그 기본 색상 덮어쓰기 */
+    text-decoration: none; /* 밑줄 제거 */
   }
   .news-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
 
@@ -264,12 +267,16 @@ header {
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--gold);
+    color: var(--gold) !important;
     cursor: pointer;
     align-self: center;
     transition: background 0.2s;
+    text-decoration: none;
   }
-  .news-more-btn:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+  .news-more-btn:link,
+  .news-more-btn:visited,
+  .news-more-btn:hover { color: var(--gold) !important; }
+  .news-more-btn:hover { background: rgba(201,168,76,0.1); }
 main {
     position: relative;
     width: 100%;
@@ -286,7 +293,9 @@ main {
     border-radius: 3px;
     overflow: hidden;
     cursor: pointer;
-  
+    display: block;        /* a 태그일 때 블록 레이아웃 유지 */
+    color: inherit;        /* a 태그 기본 색상 덮어쓰기 */
+    text-decoration: none; /* 밑줄 제거 */
     transition: border-color 0.2s, transform 0.2s;
   }
   .featured-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
